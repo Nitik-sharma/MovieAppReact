@@ -13,9 +13,11 @@ function Home() {
         const response = await axios.get(
           `https://api.tvmaze.com/search/shows?q=${query}`
         );
-        const storedData = localStorage.getItem("apiData");
-        const data = storedData ? JSON.parse(storedData) : [];
-        setShows(data.data);
+        // Use response.data instead of data.data
+        const data = response.data;
+        setShows(data);
+        // Save the data to localStorage
+        localStorage.setItem("apiData", JSON.stringify(data));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -23,6 +25,7 @@ function Home() {
 
     fetchShows();
   }, [query]);
+
   console.log("show", shows);
 
   return (
